@@ -19,7 +19,7 @@ public class MybatisExApplication {
         this.cityMapper = cityMapper;
     }
 
-    @Bean
+    /*@Bean
     CommandLineRunner sampleCommandLineRunner(){
         return args -> {
             City city = new City();
@@ -29,5 +29,5 @@ public class MybatisExApplication {
             cityMapper.insert(city);
             System.out.println(this.cityMapper.findById(city.getId()));
         };
-    }
+    }*/
 }

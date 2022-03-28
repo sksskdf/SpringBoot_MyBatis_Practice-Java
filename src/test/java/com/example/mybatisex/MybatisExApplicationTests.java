@@ -11,28 +11,57 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.util.List;
 
 @SpringBootTest
 @Slf4j
-@ExtendWith(OutputCaptureExtension.class)
+/*@ExtendWith(OutputCaptureExtension.class)*/
 class MybatisExApplicationTests {
 
-
-    //https://atoz-develop.tistory.com/entry/Spring-Boot-MyBatis-%EC%84%A4%EC%A0%95-%EB%B0%A9%EB%B2%95
-
-    @Test
+    /*@Test
     void contextLoads(CapturedOutput output) {
         Assertions.assertThat(output.getOut()).contains("1,San Francisco,CA,US");
-    }
+    }*/
 
     @Autowired
     DataSource dataSource;
 
     @Autowired
     JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    CityMapper cityMapper;
+
+    @Test
+    @DisplayName("조회")
+    public void select(){
+        City city = cityMapper.findById(1L);
+        log.info("select : {}",city);
+    }
+
+    @Test
+    @DisplayName("입력")
+    @Transactional()
+    public void insert(){
+        City city = new City();
+        city.setCountry("test1");
+        city.setState("test1");
+        city.setName("test1");
+        cityMapper.insert(city);
+        log.info("입력정보 : {}",city);
+    }
+
+    @Test
+    @DisplayName("전체조회")
+    public void findAll(){
+        List<City> city = cityMapper.findAll();
+        log.info("findAll : {}",city);
+    }
 
     @Test
     @DisplayName("DB커넥션 테스트")
